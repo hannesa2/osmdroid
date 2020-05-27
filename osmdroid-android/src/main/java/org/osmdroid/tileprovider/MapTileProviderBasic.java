@@ -1,7 +1,6 @@
 package org.osmdroid.tileprovider;
 
 import android.content.Context;
-import android.os.Build;
 
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
@@ -82,11 +81,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
         if (cacheWriter != null) {
             tileWriter = cacheWriter;
         } else {
-            if (Build.VERSION.SDK_INT < 10) {
-                tileWriter = new TileWriter();
-            } else {
-                tileWriter = new SqlTileWriter();
-            }
+            tileWriter = new SqlTileWriter();
         }
         final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
                 pRegisterReceiver, pContext.getAssets(), pTileSource);
