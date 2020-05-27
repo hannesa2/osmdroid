@@ -29,7 +29,7 @@ allprojects {
     project.version =
             (project.hasProperty('pom.version') ? project.property('pom.version') : "1.0")
 
-    // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
+    // forces all changing dependencies (i.e. SNAPSHOTs) to automatically download
     // (thanks, @BillBarnhill!)
     configurations.all {
         resolutionStrategy {
