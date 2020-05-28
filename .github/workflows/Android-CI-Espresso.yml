@@ -9,8 +9,8 @@ on:
       - master
 
 jobs:
-  Build:
-    name: Build on JDK ${{ matrix.java_version }}
+  BuildAndTest:
+    name: Build and Test on JDK ${{ matrix.java_version }}
     runs-on: macOS-latest
     strategy:
       matrix:
@@ -28,6 +28,12 @@ jobs:
         run: ./gradlew assemble --stacktrace
       - name: Run tests
         run: ./gradlew test --stacktrace
+      - name: Archive UnitTest report
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: UnitTest-report
+          path: ${{ github.workspace }}/**/build/reports/tests/testDebugUnitTest
   Check:
     name: Check
     runs-on: macOS-latest
