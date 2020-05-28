@@ -8,9 +8,13 @@
 package org.osmdroid.views;
 
 import android.graphics.Point;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
+import android.support.test.annotation.UiThreadTest;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.runner.RunWith;
 import org.osmdroid.R;
 import org.osmdroid.StarterMapActivity;
 import org.osmdroid.tileprovider.util.Counters;
@@ -20,29 +24,29 @@ import org.osmdroid.util.TileSystemWebMercator;
 
 import java.util.Random;
 
-/**
- * @author Neil Boyd
- */
-public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<StarterMapActivity> {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class OpenStreetMapViewTest {
+
+    @Rule
+    public final ActivityTestRule<StarterMapActivity> activityTestRule =
+            new ActivityTestRule<>(StarterMapActivity.class, true, false);
 
     private static final Random random = new Random();
 
     private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     public OpenStreetMapViewTest() {
-        super(StarterMapActivity.class);
         Counters.reset();
     }
 
     private MapView mOpenStreetMapView;
 
-    @Override
-    protected void setUp() throws Exception {
-
-        mOpenStreetMapView =
-                getActivity().findViewById(R.id.map_container).findViewWithTag("mapView");
-
-        super.setUp();
+    @Before
+    public void setUp() {
+        mOpenStreetMapView = activityTestRule.getActivity().findViewById(R.id.map_container).findViewWithTag("mapView");
     }
 
     /**
