@@ -42,13 +42,14 @@ jobs:
         uses: malinskiy/action-android/install-sdk@release/0.0.5
       - name: Build project
         run: ./gradlew lint --stacktrace
-      - name: Archive Lint report
-        uses: actions/upload-artifact@v2
-        with:
-          name: Lint-report
-          path: ./**/build/reports/lint-results.html
+#      - name: Archive Lint report
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: Lint-report
+#          path: ${{ github.workspace }}/lint-*.html
   Espresso:
     runs-on: macOS-latest
+    continue-on-error: true
     steps:
       # In order to have sha256sum on macOS, we need to install coreutils first
       # Use this until coreutils or sha256sum are natively included in macOS on actions https://github.com/actions/virtual-environments/issues/90
@@ -66,7 +67,7 @@ jobs:
       - name: Run instrumentation tests
         uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
         with:
-          cmd: ./gradlew cAT --stacktrace
+          cmd: ./gradlew clean install -Pprofile=ci
           api: 28
           tag: default
           abi: x86
