@@ -1,8 +1,9 @@
 package org.osmdroid.sample;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.simplemap.R;
