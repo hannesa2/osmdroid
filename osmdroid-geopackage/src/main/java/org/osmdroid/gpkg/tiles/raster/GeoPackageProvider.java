@@ -1,7 +1,6 @@
 package org.osmdroid.gpkg.tiles.raster;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -13,7 +12,6 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
@@ -55,11 +53,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
         if (cacheWriter != null) {
             tileWriter = cacheWriter;
         } else {
-            if (Build.VERSION.SDK_INT < 10) {
-                tileWriter = new TileWriter();
-            } else {
-                tileWriter = new SqlTileWriter();
-            }
+            tileWriter = new SqlTileWriter();
         }
 
         mTileProviderList.add(MapTileProviderBasic.getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter));

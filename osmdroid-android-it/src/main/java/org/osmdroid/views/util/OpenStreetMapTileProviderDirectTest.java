@@ -16,11 +16,15 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.RemoteException;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -34,27 +38,27 @@ import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-/**
- * @author Neil Boyd
- */
-public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class OpenStreetMapTileProviderDirectTest {
 
     private MapTileProviderBasic mProvider;
 
-    @Override
-    protected void setUp() throws Exception {
-
-        mProvider = new MapTileProviderBasic(getContext());
-
-        super.setUp();
+    @Before
+    public void setUp() {
+        mProvider = new MapTileProviderBasic(InstrumentationRegistry.getInstrumentation().getContext());
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() {
         mProvider.detach();
     }
 
+    @Test
     public void test_getMapTile_not_found() {
         final long tile = MapTileIndex.getTileIndex(29, 0, 0);
 
@@ -63,20 +67,20 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
         assertNull("Expect tile to be null", drawable);
     }
 
-    public void test_getMapTile_found() throws RemoteException, BitmapTileSourceBase.LowMemoryException, java.io.IOException {
+    @Test
+    public void test_getMapTile_found() throws BitmapTileSourceBase.LowMemoryException {
         final long tile = MapTileIndex.getTileIndex(2, 3, 3);
         if (Build.VERSION.SDK_INT >= 23)
             return;
 
         // create a bitmap, draw something on it, write it to a file and put it in the cache
-        String path = getContext().getFilesDir().getAbsolutePath() + File.separator + "osmdroid" + File.separator;
+        String path = InstrumentationRegistry.getInstrumentation().getContext().getFilesDir().getAbsolutePath() + File.separator + "osmdroid" + File.separator;
 
         File temp = new File(path);
         if (!temp.exists())
             temp.mkdirs();
         Configuration.getInstance().setOsmdroidTileCache(temp);
-        ;
-        path = path + "OpenStreetMapTileProviderTest.png";
+        ;path = path + "OpenStreetMapTileProviderTest.png";
         File f = new File(path);
         if (f.exists())
             f.delete();

@@ -7,23 +7,23 @@
 
 description = 'DEPRECATED osmdroid 3rd party libraries and examples. May use non ASF licensed libraries as dependencies'
 apply plugin: 'com.android.library'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+
 android {
-    compileSdkVersion "Google Inc.:Google APIs:${project.property('android.targetSdkVersion')}"
-    buildToolsVersion "${project.property('android.buildToolsVersion')}"
+    compileSdkVersion = compileSdk
+
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 14
     }
     lintOptions {
         abortOnError false
+        xmlReport false
+        htmlReport true
+        htmlOutput file("../lint-report-third-party.html")
     }
 }
 
 dependencies {
-    testCompile "junit:junit:${project.property('junit.version')}"
-    compile project(':osmdroid-android')
-    //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
-
-//    compile 'com.google.android.gms:play-services:8.+'
-    compile 'com.google.android.gms:play-services-maps:8.+'
+    testImplementation "junit:junit:${project.property('junit.version')}"
+    implementation project(':osmdroid-android')
+    implementation 'com.google.android.gms:play-services-maps:8.+'
 }
