@@ -1,17 +1,29 @@
 description = 'An Android library to display OpenStreetMap views.'
 apply plugin: 'com.android.library'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
 
 android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 14
+    }
     lintOptions {
         abortOnError false
+        disable 'MissingTranslation','TypographyQuotes'
+        xmlReport false
+        htmlReport true
+        htmlOutput file("../lint-report-osmdroid.html")
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
 dependencies {
-    testCompile "junit:junit:${project.property('junit.version')}"
-    testCompile "org.robolectric:robolectric:${project.property('robolectric.version')}"
+    testImplementation "junit:junit:${project.property('junit.version')}"
+    testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
 }
+
 import org.apache.tools.ant.filters.*
 task copyFiles(type: Copy) {
     from 'src/main/filtered/org/osmdroid'

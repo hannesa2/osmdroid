@@ -18,11 +18,9 @@ public class LocationListenerProxy implements LocationListener {
         boolean result = false;
         mListener = pListener;
         for (final String provider : mLocationManager.getProviders(true)) {
-            if (LocationManager.GPS_PROVIDER.equals(provider)
-                    || LocationManager.NETWORK_PROVIDER.equals(provider)) {
+            if (LocationManager.GPS_PROVIDER.equals(provider) || LocationManager.NETWORK_PROVIDER.equals(provider)) {
                 result = true;
-                mLocationManager.requestLocationUpdates(provider, pUpdateTime, pUpdateDistance,
-                        this);
+                mLocationManager.requestLocationUpdates(provider, pUpdateTime, pUpdateDistance, this);
             }
         }
         return result;
