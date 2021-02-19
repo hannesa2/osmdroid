@@ -34,7 +34,7 @@ dependencies {
     //this covers google maps v2 apis
     //implementation 'com.google.android.gms:play-services:8.+'
 
-    implementation 'com.google. android.gms:play-services-maps:8.+'
+    implementation 'com.google.android.gms:play-services-maps:8.+'
 
     implementation "com.android.support:support-v4:${project.property('android-support.version')}"
     implementation "com.android.support:appcompat-v7:${project.property('android-support.version')}"
