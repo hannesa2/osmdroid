@@ -1,5 +1,7 @@
 package org.osmdroid.bugtestfragments;
 
+import androidx.appcompat.app.AlertDialog;
+
 import android.widget.Toast;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;

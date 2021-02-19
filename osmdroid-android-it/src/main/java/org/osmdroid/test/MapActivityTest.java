@@ -7,26 +7,34 @@
  */
 package org.osmdroid.test;
 
-import android.test.ActivityInstrumentationTestCase2;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import junit.framework.Assert;
 
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.osmdroid.StarterMapActivity;
 import org.osmdroid.tileprovider.util.Counters;
 
-public class MapActivityTest extends ActivityInstrumentationTestCase2<StarterMapActivity> {
+import static org.junit.Assert.assertNotNull;
 
-    public MapActivityTest() {
-        super("org.osmdroid", StarterMapActivity.class);
-    }
+@RunWith(AndroidJUnit4.class)
+public class MapActivityTest {
 
+    @Rule
+    public final ActivityTestRule<StarterMapActivity> activityTestRule =
+            new ActivityTestRule<>(StarterMapActivity.class, true, false);
+
+    @Test
     public void testActivity() {
         Counters.reset();
-        StarterMapActivity activity = getActivity();
+        StarterMapActivity activity = activityTestRule.getActivity();
         assertNotNull(activity);
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
         Counters.printToLogcat();
         if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0) {

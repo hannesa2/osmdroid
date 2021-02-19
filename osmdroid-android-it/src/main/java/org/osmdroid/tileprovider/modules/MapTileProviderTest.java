@@ -11,19 +11,21 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.AndroidTestCase;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-/**
- * @author Neil Boyd
- */
-public class MapTileProviderTest extends AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class MapTileProviderTest {
 
     private final List<Long> mTiles = new LinkedList<>();
     private final List<MapTileModuleProviderBase> mProviders = new ArrayList<>();
@@ -61,15 +63,14 @@ public class MapTileProviderTest extends AndroidTestCase {
             return "OpenStreetMapAsyncTileProviderTest";
         }
 
-        @Override
-        public TileLoader getTileLoader() {
-            return new TileLoader() {
-                @Override
-                public Drawable loadTile(final long pMapTileIndex)
-                        throws CantContinueException {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (final InterruptedException e) {
+		@Override
+		public TileLoader getTileLoader() {
+			return new TileLoader() {
+				@Override
+				public Drawable loadTile(final long pMapTileIndex) {
+					try {
+						Thread.sleep(1000);
+					} catch (final InterruptedException ignored) {
                     }
                     return new BitmapDrawable();
                 }
@@ -102,7 +103,8 @@ public class MapTileProviderTest extends AndroidTestCase {
         }
     };
 
-    public void test_put_twice() {
+    @Test
+	public void test_put_twice() {
 
         final long tile = MapTileIndex.getTileIndex(1, 1, 1);
 
@@ -119,7 +121,8 @@ public class MapTileProviderTest extends AndroidTestCase {
     /**
      * Test that the tiles are loaded in most recently accessed order.
      */
-    public void test_order() throws InterruptedException {
+    @Test
+	public void test_order() throws InterruptedException {
 
         final long tile1 = MapTileIndex.getTileIndex(1, 1, 1);
         final long tile2 = MapTileIndex.getTileIndex(2, 2, 2);
@@ -160,10 +163,11 @@ public class MapTileProviderTest extends AndroidTestCase {
     /**
      * Test that adding the same tile more than once moves it up the queue.
      */
-    public void test_jump_queue() throws InterruptedException {
-        final long tile1 = MapTileIndex.getTileIndex(1, 1, 1);
-        final long tile2 = MapTileIndex.getTileIndex(2, 2, 2);
-        final long tile3 = MapTileIndex.getTileIndex(3, 3, 3);
+    @Test
+	public void test_jump_queue() throws InterruptedException {
+		final long tile1 = MapTileIndex.getTileIndex(1, 1, 1);
+		final long tile2 = MapTileIndex.getTileIndex(2, 2, 2);
+		final long tile3 = MapTileIndex.getTileIndex(3, 3, 3);
 
         // request tile1, tile2, tile3, then tile2 again
         final MapTileRequestState state1 = new MapTileRequestState(tile1,

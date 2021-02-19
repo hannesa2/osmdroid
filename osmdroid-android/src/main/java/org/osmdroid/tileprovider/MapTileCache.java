@@ -4,7 +4,7 @@ package org.osmdroid.tileprovider;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import org.osmdroid.api.IMapView;
+import android.graphics.drawable.Drawable;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.MapTileArea;
 import org.osmdroid.util.MapTileAreaComputer;
@@ -130,7 +130,6 @@ public class MapTileCache {
 
     public boolean ensureCapacity(final int pCapacity) {
         if (mCapacity < pCapacity) {
-            Log.i(IMapView.LOGTAG, "Tile cache increased from " + mCapacity + " to " + pCapacity);
             mCapacity = pCapacity;
             return true;
         }
